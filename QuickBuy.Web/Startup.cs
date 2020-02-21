@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuickBuy.Repository.Contexto;
 
 namespace QuickBuy.Web
 {
@@ -12,6 +14,12 @@ namespace QuickBuy.Web
     {
         public Startup(IConfiguration configuration)
         {
+            //Para utilizar um novo arquivo de configuração ao invés do padrão: appsettings.json
+            //deve-se criar o arquivo .json e referencia-lo aqui: exemplo arquivo config.json
+            //var builder = new ConfigurationBuilder();
+            //builder.AddJsonFile("config.json", optional: false, reloadOnChange: true);
+            //Configuration = builder.Build();
+
             Configuration = configuration;
         }
 
@@ -21,6 +29,10 @@ namespace QuickBuy.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
