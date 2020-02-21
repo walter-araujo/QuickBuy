@@ -2,7 +2,7 @@
 import { Component } from "@angular/core"
 
 @Component({
-  "selector": "produto",
+  "selector": "app-produto",
   "template": "<html><body>{{ obterNome() }}</body></html>"
 })
 
